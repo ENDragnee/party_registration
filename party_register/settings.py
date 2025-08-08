@@ -21,7 +21,6 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 BASE_DIR = Path(__file__).resolve().parent.parent
 production_server = os.getenv('PRODUCTION_SERVER')
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
@@ -30,21 +29,14 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', production_server]
 
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-# Tell Django that all non-HTTPS requests should be permanently redirected to HTTPS.
-SECURE_SSL_REDIRECT = True
-
-# For modern browsers, tell them to only connect to your domain via HTTPS for a year.
-SECURE_HSTS_SECONDS = 31536000  # 1 year
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
-
-# Ensure the CSRF cookie is only sent over HTTPS and is not accessible to JavaScript.
-CSRF_COOKIE_SECURE = True
-
-# Ensure the session cookie is only sent over HTTPS.
-SESSION_COOKIE_SECURE = True
+if 'RENDER' in os.environ:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'httpss') # Note 'httpss' for some proxy configs
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
 
 
 # Application definition
