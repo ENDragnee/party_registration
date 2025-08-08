@@ -30,7 +30,7 @@ DEBUG = False
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', production_server]
 
 if 'RENDER' in os.environ:
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'httpss') # Note 'httpss' for some proxy configs
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') # Note 'httpss' for some proxy configs
     SECURE_SSL_REDIRECT = True
     SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
