@@ -8,3 +8,4 @@ python-dotenv==1.1.1
 qrcode==8.2
 sqlparse==0.5.3
 WeasyPrint
+dj-database-url

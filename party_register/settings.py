@@ -12,12 +12,14 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import dj_database_url
 
 load_dotenv()
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+production_server = os.getenv('PRODUCTION_SERVER')
 
 
 # Quick-start development settings - unsuitable for production
@@ -26,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', "party-registration.onrender.com"]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', production_server]
 
 
 # Application definition
@@ -75,16 +77,26 @@ WSGI_APPLICATION = 'party_register.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('POSTGRES_NAME', 'party_db'),
-        'USER': os.environ.get('POSTGRES_USER', 'party_user'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-        'HOST': os.environ.get('POSTGRES_HOST', 'localhost'),
-        'PORT': os.environ.get('POSTGRES_PORT', '5432'),
+if 'DATABASE_URL' in os.environ:
+    # Production: Use the Render DATABASE_URL environment variable.
+    DATABASES = {
+        'default': dj_database_url.config(
+            conn_max_age=600,
+            ssl_require=True
+        )
     }
-}
+else:
+    # Development: Use the local Docker database settings.
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('POSTGRES_NAME', 'party_db'),
+            'USER': os.environ.get('POSTGRES_USER', 'party_user'),
+            'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'your_secure_password'),
+            'HOST': os.environ.get('POSTGRES_HOST', 'db'),
+            'PORT': '5432',
+        }
+    }
 
 
 # Password validation
