@@ -1,0 +1,50 @@
+<!-- registration/templates/registration/check_in.html -->
+{% extends 'party_register_app/base.html' %}
+
+{% block title %}Guest Check-In{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-header text-center bg-dark text-white">
+        <h2>Guest Check-In</h2>
+    </div>
+    <div class="card-body p-4">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between align-items-center fs-5">
+                Name:
+                <strong>{{ guest.name }}</strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center fs-5">
+                Phone:
+                <span>{{ guest.phone_number }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center fs-5">
+                Status:
+                {% if guest.status == 'VALID' %}
+                    <span class="badge bg-success rounded-pill">Valid for Entry</span>
+                {% elif guest.status == 'ENTERED' %}
+                    <span class="badge bg-danger rounded-pill">Already Entered</span>
+                {% endif %}
+            </li>
+        </ul>
+        
+        <div class="mt-4">
+            {% if guest.status == 'VALID' %}
+                <div class="alert alert-success text-center">
+                    <h4 class="alert-heading">Clear for Entry!</h4>
+                    <p>This ticket is valid. Please admit the guest.</p>
+                </div>
+                <form method="post" class="d-grid">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary btn-lg">Mark as Entered</button>
+                </form>
+            {% elif guest.status == 'ENTERED' %}
+                <div class="alert alert-warning text-center">
+                     <h4 class="alert-heading">Attention!</h4>
+                     <p>This guest has already been checked in. Do not admit again.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

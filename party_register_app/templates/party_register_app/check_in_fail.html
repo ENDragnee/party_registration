@@ -1,0 +1,29 @@
+{% extends 'party_register_app/base.html' %}
+
+{% block title %}Invalid Ticket{% endblock %}
+
+{% block content %}
+<style>
+    .alert-invalid {
+        background-color: rgba(255, 85, 85, 0.1);
+        border: 2px solid var(--drac-red);
+        color: var(--drac-red);
+        border-radius: 10px;
+        padding: 2rem;
+    }
+</style>
+
+<div class="card drac-card w-100 text-center">
+    <div class="card-body p-4 p-md-5">
+        <div class="alert-invalid">
+            <h2 class="alert-heading">INVALID TICKET</h2>
+            <p class="lead mb-0">The scanned QR code is not in our system. Please check with the guest or try scanning again.</p>
+        </div>
+        <div class="d-grid mt-4">
+            <a href="{% url 'party_register_app:check_in_scanner' %}" class="btn btn-primary-drac btn-lg">
+                Try Scanning Again
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

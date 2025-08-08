@@ -1,0 +1,76 @@
+{% extends 'party_register_app/base.html' %}
+
+{% block title %}Get Your Ticket{% endblock %}
+
+{% block content %}
+<style>
+    .hero-bg {
+        /* This creates the full-screen background image */
+        background-image: linear-gradient(rgba(40, 42, 54, 0.8), rgba(40, 42, 54, 0.95)), url('https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=2070&auto=format&fit=crop');
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-size: cover;
+        background-position: center;
+        z-index: -1; /* Puts the background behind all other content */
+    }
+
+    /* "Glassmorphism" Card Effect */
+    .glass-card {
+        background: rgba(68, 71, 90, 0.65); /* Semi-transparent background from Dracula palette */
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px); /* For Safari support */
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+
+    /* Override form controls to look good on the glass card */
+    .glass-card .form-control {
+        background-color: rgba(40, 42, 54, 0.75); /* A slightly darker transparency */
+    }
+    .glass-card .form-check-label,
+    .glass-card p {
+        color: var(--drac-foreground); /* Use the brighter foreground color for readability */
+    }
+</style>
+
+<!-- This div applies the background image to the whole page -->
+<div class="hero-bg"></div>
+
+<!-- 
+    We use the new .glass-card class here instead of .drac-card
+    to achieve the semi-transparent look.
+-->
+<div class="card glass-card w-100">
+    <div class="card-body p-4 p-md-5 text-center">
+        <h2 class="mb-4" style="font-weight: 600; color: var(--drac-cyan);">Secure Your Spot</h2>
+        <p class="mb-5">Fill out the form below to get on the exclusive list.</p>
+
+        <form method="post" novalidate>
+            {% csrf_token %}
+
+            <div class="form-floating mb-4">
+                <input type="text" name="{{ form.name.name }}" class="form-control" id="floatingName" placeholder="Your Name" required>
+                <label for="floatingName" style="color: var(--drac-comment);">{{ form.name.label }}</label>
+            </div>
+
+            <div class="form-floating mb-4">
+                <input type="tel" name="{{ form.phone_number.name }}" class="form-control" id="floatingPhone" placeholder="Phone Number" required>
+                <label for="floatingPhone" style="color: var(--drac-comment);">{{ form.phone_number.label }}</label>
+            </div>
+
+            <div class="form-check text-start my-4">
+                <input type="checkbox" name="{{ form.will_attend.name }}" class="form-check-input" id="{{ form.will_attend.id_for_label }}" checked>
+                <label for="{{ form.will_attend.id_for_label }}" class="form-check-label">{{ form.will_attend.label }}</label>
+            </div>
+            
+            <div class="d-grid mt-5">
+                 <button type="submit" class="btn btn-primary-drac btn-lg">Claim My Ticket</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

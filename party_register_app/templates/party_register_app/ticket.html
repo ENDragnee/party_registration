@@ -1,0 +1,80 @@
+<!-- party_register_app/templates/party_register_app/ticket.html -->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Your Ticket</title>
+    <style>
+        /* Define fonts and the Dracula color palette */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Righteous&display=swap');
+        
+        :root {
+            --drac-bg: #282a36;
+            --drac-foreground: #f8f8f2;
+            --drac-pink: #ff79c6;
+            --drac-purple: #bd93f9;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--drac-bg);
+            color: var(--drac-foreground);
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .ticket {
+            border: 3px dashed var(--drac-purple);
+            border-radius: 20px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(68, 71, 90, 0.8), rgba(40, 42, 54, 0.9));
+        }
+        .header {
+            font-family: 'Righteous', cursive;
+            font-size: 50px;
+            color: var(--drac-pink);
+            letter-spacing: 5px;
+            border-bottom: 2px solid var(--drac-pink);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        .guest-name {
+            font-size: 36px;
+            font-weight: 700;
+            margin: 20px 0 10px 0;
+        }
+        .message {
+            font-size: 18px;
+            margin-bottom: 40px;
+        }
+        .qr-code-wrapper {
+            background-color: white;
+            padding: 20px;
+            border-radius: 15px;
+            display: inline-block; /* Keeps the wrapper tight around the image */
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        .footer {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #6272a4;
+        }
+    </style>
+</head>
+<body>
+    <div class="ticket">
+        <div class="header">ADMIT ONE</div>
+        <div class="message">This ticket grants entry for:</div>
+        <div class="guest-name">{{ guest.name }}</div>
+        <div class="qr-code-wrapper">
+            <img src="data:image/png;base64,{{ qr_code_base64 }}" alt="Your QR Code Ticket">
+        </div>
+        <div class="footer">
+            THE NIGHT OUT | DO NOT DUPLICATE
+        </div>
+    </div>
+</body>
+</html>

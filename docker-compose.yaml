@@ -1,0 +1,30 @@
+# docker-compose.yml
+services:
+  db:
+    image: postgres:latest  # Use a specific, lightweight postgres image
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=party_db
+      - POSTGRES_USER=party_user
+      - POSTGRES_PASSWORD=k2Q9Ydo2d
+    ports:
+      - "5432:5432" 
+
+  web:
+    build: .  # Build an image from the Dockerfile in the current directory
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code  # Mount current directory into the container for live code changes
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRES_NAME=party_db
+      - POSTGRES_USER=party_user
+      - POSTGRES_PASSWORD=k2Q9Ydo2d
+      - POSTGRES_HOST=db
+    depends_on:
+      - db  # This tells the 'web' service to wait until the 'db' service is ready
+
+volumes:
+  postgres_data:
